@@ -1,27 +1,26 @@
 const validate = (referenceNumber) => {
-  if(referenceNumber.trim().length === 0) {
-    return false
-  }
-
   // get rid of non-numeric characters
   let re = referenceNumber.replace(/\D/g,'');
 
+  // too short? (empty string)
+  if(re.length === 0) {
+    return false
+  }
+
+  // too long?
+  if(re.length > 27) {
+    return false
+  }
+  
   // table used to check mod 10
   let table = [0,9,4,6,8,2,7,1,3,5]
 
   // prepend 0s to make it either 15 or 26 characters long
   if (re.length < 17 ) {
-    re = "000000000000000" + re
-    re = re.substr(re.length -16)
+    re = re.padStart(16, '0')
   }
   else {
-    re = "00000000000000000000000000" + re
-    re = re.substr(re.length -27)
-  }
-
-  // unsupported length? not valid.
-  if(re.length !== 16 && re.length !== 27) {
-    return false
+    re = re.padStart(27, '0')
   }
 
   // split the reference number into an array so we can easily use it with the checking table
