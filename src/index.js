@@ -55,4 +55,4 @@ const print = (s) => {
   return "todo"
 }
 
-export default {validate}
+export {validate, print}
