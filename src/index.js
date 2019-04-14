@@ -112,6 +112,9 @@ const prettify = (referenceNumber) => {
   // make sure we have a string
   let ref = String(referenceNumber)
 
+  // remove all non-digits
+  ref = ref.replace(/\D/g,'')
+
   // unsupported length?
   if(ref.length !== 16 && ref.length !== 27) {
     throw new Error(`Reference number should have 16 or 27 places. Received ${ref.length}`)
