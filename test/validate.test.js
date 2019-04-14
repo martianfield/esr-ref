@@ -9,8 +9,13 @@ describe('validate', () => {
     expect(valid).to.equal(false)
   })
 
-  it('too short (empty string)', () => {
+  it('empty string', () => {
     let valid = validate('')
+    expect(valid).to.equal(false)
+  })
+
+  it('only spaces', () => {
+    let valid = validate(' ')
     expect(valid).to.equal(false)
   })
 
