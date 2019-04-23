@@ -108,16 +108,28 @@ const create = (base, options) => {
  * Prettifies a reference number
  * @param {string} referenceNumber 
  */
-const prettify = (referenceNumber) => {
+const prettify = (referenceNumber, options) => {
+  options = options || {enforceLong:false}
+
   // make sure we have a string
   let ref = String(referenceNumber)
 
   // remove all non-digits
   ref = ref.replace(/\D/g,'')
 
-  // unsupported length?
+  // way too long?
+  if(ref.length > 27) {
+    throw new Error(`Reference number should have no more than 27 digits. Received ${ref.length}`)
+  }
+
+  // too short? pad with 0s
   if(ref.length !== 16 && ref.length !== 27) {
-    throw new Error(`Reference number should have 16 or 27 places. Received ${ref.length}`)
+    if(ref.length < 16 && !options.enforceLong) {
+      ref = ref.padStart(16, '0')
+    }
+    else {
+      ref = ref.padStart(27, '0')
+    }
   }
   
   if(ref.length === 16) {

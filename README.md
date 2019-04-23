@@ -52,7 +52,7 @@ esr.create('1234', {useShort:true}) // 0 00000 00000 12347
 ```
 
 ### Prettify
-The `prettify(<referenceNumber>)`adds spaces to make the reference number more readable.
+The `prettify(<referenceNumber>, <options>)`adds spaces to make the reference number more readable.
 
 Examples:
 
@@ -61,14 +61,24 @@ esr.prettify("0000000000012347") // "0 00000 00000 12347"
 esr.prettify("000000000000000000000012347") // "00 00000 00000 00000 00000 12347"
 ```
 
-Note: `prettify` expects a valid reference number (with or without spaces) with either 16 or 27 digits. An error is thrown if this is not the case
+Note: `prettify` expects a valid reference number (with or without spaces) no longer than 27 digits. An error is thrown if this is not the case
 
 ```
 try {
-  esr.prettify("0034567)
+  esr.prettify("123456789012345678901234567890)
 }
 catch(err) {
   console.log('error', err)
 }
 
 ```
+
+If the provideded `referenceNumber` is shorter than 16 or 27 digits, `0`s are added to the front. Note that the 16 digit version is created if possible. If you want to enforce 27 digits pass the option `enforceLong:true`:
+
+```
+esr.prettify("12345") // "0 00000 00000 12347"
+esr.prettify("12345", {enforceLong:true}) // "00 00000 00000 00000 00000 12347"
+esr.prettify("12345678901234567890") // "00 00000 12345 67890 12345 67890"
+
+```
+
